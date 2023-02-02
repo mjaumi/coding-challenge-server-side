@@ -24,17 +24,21 @@ const run = async () => {
 
         console.log('MongoDB Connected!');
 
-        //GET API to get all the sectors data
+        //GET API to fetch all the sectors data
         app.get('/sectors', async (req, res) => {
-            const query = {};
-            const sectorData = await sectorsCollection.find(query).toArray();
+            const sectorData = await sectorsCollection.find({}).toArray();
             res.send(sectorData);
         });
 
+        //GET API to fetch the latest survey data
+        app.get('/getLatestSurveyData', async (req, res) => {
+            const latestSurveyData = await surveyCollection.find().limit(1).sort({ $natural: -1 }).toArray();
+            res.send(latestSurveyData);
+        })
+
         //POST API to put survey data into database
         app.post('/addSurvey', async (req, res) => {
-            const newSurvey = req.body;
-            const addSurvey = await surveyCollection.insertOne(newSurvey);
+            const addSurvey = await surveyCollection.insertOne(req.body);
             res.send(addSurvey);
         });
 
