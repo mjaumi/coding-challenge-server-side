@@ -1,0 +1,4 @@
+# Ignore these files while pushing to github
+
+node_modules
+.env
