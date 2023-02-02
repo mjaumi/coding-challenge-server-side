@@ -20,6 +20,7 @@ const run = async () => {
 
         //collections here
         const sectorsCollection = client.db('survey-sector').collection('sectors');
+        const surveyCollection = client.db('survey-sector').collection('survey');
 
         console.log('MongoDB Connected!');
 
@@ -28,6 +29,13 @@ const run = async () => {
             const query = {};
             const sectorData = await sectorsCollection.find(query).toArray();
             res.send(sectorData);
+        });
+
+        //POST API to put survey data into database
+        app.post('/addSurvey', async (req, res) => {
+            const newSurvey = req.body;
+            const addSurvey = await surveyCollection.insertOne(newSurvey);
+            res.send(addSurvey);
         });
 
     } finally {
