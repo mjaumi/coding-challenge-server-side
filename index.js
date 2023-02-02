@@ -18,8 +18,18 @@ const run = async () => {
     try {
         await client.connect();
 
+        //collections here
+        const sectorsCollection = client.db('survey-sector').collection('sectors');
 
         console.log('MongoDB Connected!');
+
+        //GET API to get all the sectors data
+        app.get('/sectors', async (req, res) => {
+            const query = {};
+            const sectorData = await sectorsCollection.find(query).toArray();
+            res.send(sectorData);
+        });
+
     } finally {
 
     }
